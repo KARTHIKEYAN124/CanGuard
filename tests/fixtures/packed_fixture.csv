@@ -1,0 +1,3 @@
+Timestamp,Arbitration_ID,DLC,Data,Class,SubClass
+10.000000001,0x100,2,"01 ff",Normal,Normal
+10.01,101,0,,Attack,Example
