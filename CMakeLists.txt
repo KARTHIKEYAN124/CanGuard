@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.20)
+project(CANGuard LANGUAGES CXX)
+find_package(Threads REQUIRED)
+add_library(canguard_core
+    src/dataset_reader.cpp src/window_builder.cpp src/feature_extractor.cpp
+    src/profile_builder.cpp src/detector.cpp src/evaluator.cpp src/benchmark.cpp src/execution.cpp)
+target_include_directories(canguard_core PUBLIC include)
+target_compile_features(canguard_core PUBLIC cxx_std_20)
+set_target_properties(canguard_core PROPERTIES CXX_EXTENSIONS OFF)
+target_link_libraries(canguard_core PUBLIC Threads::Threads)
+add_executable(canguard src/main.cpp)
+target_link_libraries(canguard PRIVATE canguard_core)
+include(CTest)
+if(BUILD_TESTING)
+    add_executable(canguard_tests tests/core.cpp)
+    target_link_libraries(canguard_tests PRIVATE canguard_core)
+    add_test(NAME canguard_core COMMAND canguard_tests
+        "${CMAKE_CURRENT_SOURCE_DIR}/data" "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures")
+    set_tests_properties(canguard_core PROPERTIES TIMEOUT 20)
+endif()

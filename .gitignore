@@ -1,0 +1,4 @@
+/build/
+/results/*
+/data/hcrl/*
+!/data/hcrl/README.md
